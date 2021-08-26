@@ -1,4 +1,4 @@
- import java.awt.*;
+import java.awt.*;
 import javax.swing.*;
 
 /**
@@ -7,35 +7,32 @@ import javax.swing.*;
  * @author (Vijeta)
  * @version (0.1 or 8/26/2021)
  */
-public class calcGUI
+public class calcGUI extends JFrame
 {
     // instance variables - replace the example below with your own
-    JFrame frame;
-    JPanel panel;
-    JTextField fieldArea;
+    JPanel panelTop;
+    JTextField textArea;
     JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual;
     // Constructor of class calcGUI
     public calcGUI(){
-        frame =new JFrame();
-        panel=new JPanel();
-        fieldArea=new JTextField(10);
-        button1=new JButton("1");
-        button2=new JButton("2");
-        button3=new JButton("3");
-        button4=new JButton("4");
-        button5=new JButton("5");
-        button6=new JButton("6");
-        button7=new JButton("7");
-        button8=new JButton("8");
-        button9=new JButton("9");
-        button0=new JButton("0");
-        buttonDot=new JButton(".");
-        buttonAdd=new JButton("+");
-        buttonSub=new JButton("-");
-        buttonMulti=new JButton("*");
-        buttonDiv=new JButton("/");
-        buttonEqual=new JButton("=");
-    }
+      
+        panelTop=new JPanel();
+	panelTop.setBackground(color.pink);
+	panelTop.setBounds(10,10,360,35);
+	add(panelTop);
+
+	JPanel panelBottom=new JPanel();
+	panelBottom.setBackground(color.gray);
+	panelBottom.setBounds(10,50,360,200);
+	add(panelBottom);
+	
+        textArea=new JTextField();
+	textArea.setPreferresSize(new Dimension(350,25);
+	add(panelBottom);
+	panelTop.add(textArea);
+	pack()'
+	
+          }
     // to set the value on the panel
     public void setValues(){
         panel.add(fieldArea);
