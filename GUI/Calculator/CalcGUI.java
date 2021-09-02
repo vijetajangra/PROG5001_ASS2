@@ -101,8 +101,6 @@ public class CalcGUI extends JFrame implements ActionListener{
         buttonEqual.addActionListener(this);
         
         buttonClear=new JButton("C");
-        buttonClear.setActionCommand("CMD_Clear");
-        buttonClear.addActionListener(this);
         
         
         // adding buttons on bottom Panel
@@ -191,10 +189,6 @@ public class CalcGUI extends JFrame implements ActionListener{
         if(command.equals("CMD_Equal")){
         
             expression=expression+"=";
-        }else
-        if(command.equals("CMD_Clear")){
-        
-            expression=expression+"C";
         }
         
         textArea.setText(expression);
