@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 /**
- * Write a description of class calcGUI here.
+ * CalcGUI class to build a basic calculator which will perform simple calculation by taking input from users
  *
  * @author (Vijeta)
  * @version (0.1 or 8/26/2021)
@@ -12,7 +12,7 @@ public class CalcGUI extends JFrame implements ActionListener{
 
     // instance variables - replace the example below with your own
     JPanel topPanel;
-    JPanel bottomPanel;
+    JPanel bottomPanel,centerPanel;
     JTextField textArea;
     String expression="";
     JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual,buttonClear;
@@ -21,17 +21,35 @@ public class CalcGUI extends JFrame implements ActionListener{
         super("MY PROG5001 Calculator");
         setPreferredSize(new Dimension(400,400));
         setLayout(null);
+    }
+    private void CreateCalcGUI(){
         topPanel=new JPanel();
         topPanel.setBackground(Color.pink);
+        GridLayout topPanelLayout = new GridLayout(0,1);
         topPanel.setBounds(10,10,360,35);
-        add(topPanel);
-
+        topPanel.setLayout(topPanelLayout);
+        //add(topPanel);
+        centerPanel= new JPanel();
+        centerPanel.setBackground(Color.green);
+        GridLayout centerPanelLayout = new GridLayout(4,3);
+        centerPanelLayout.setHgap(10);
+        centerPanelLayout.setVgap(10);
+        centerPanel.setLayout(centerPanelLayout);
+        
         JPanel bottomPanel=new JPanel();
         bottomPanel.setBackground(Color.gray);
         bottomPanel.setBounds(10,50,360,200);
         add(bottomPanel);
+        BorderLayout mainLayout = new BorderLayout();
+        setLayout(mainLayout);
+        add(topPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
+        
     
-        textArea=new JTextField();
+        textArea=new JTextField("0");
+        Font textFont = new Font("SansSerif", Font.BOLD,24);
+        textArea.setFont(textFont);
+        textArea.setHorizontalAlignment(JTextField.RIGHT);
         textArea.setPreferredSize(new Dimension(350,25));
         topPanel.add(textArea);
      
@@ -101,7 +119,9 @@ public class CalcGUI extends JFrame implements ActionListener{
         buttonEqual.addActionListener(this);
         
         buttonClear=new JButton("C");
-        
+        buttonClear.setActionCommand("CMD_CLR");
+        buttonClear.addActionListener(this);
+        add(buttonClear, BorderLayout.SOUTH);
         
         // adding buttons on bottom Panel
         bottomPanel.add(button1);
@@ -126,6 +146,7 @@ public class CalcGUI extends JFrame implements ActionListener{
     }
     public void actionPerformed(ActionEvent e){
         String command=e.getActionCommand();
+      
         if(command.equals("CMD_One")){
             expression=expression+"1";
         }else
@@ -190,10 +211,8 @@ public class CalcGUI extends JFrame implements ActionListener{
         
             expression=expression+"=";
         }
-        
-        textArea.setText(expression);
-
-}
+        textArea.setText(expression);        
+  }
     
     public static void main (String args[]){
     CalcGUI calc=new CalcGUI();
