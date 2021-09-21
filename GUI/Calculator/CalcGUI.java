@@ -15,7 +15,8 @@ public class CalcGUI extends JFrame implements ActionListener{
     JPanel bottomPanel,centerPanel;
     JTextField textArea;
     String expression="";
-    JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual,buttonClear;
+    JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual,buttonClear,opBracket,closeBracket;
+    String [] buttonCommands = { "CMD_One","CMD_Two","CMD_Three","CMD_Four","CMD_Five","CMD_Six","CMD_Seven","CMD_Eight","CMD_Nine","CMD_Zero","CMD_Dot","CMD_Add","CMD_Sub","CMD_Multi","CMD_Div","CMD_Equal","CMD_CLR"};
     // Constructor of class calcGUI
     public CalcGUI(){
         super("MY PROG5001 Calculator");
@@ -213,7 +214,28 @@ public class CalcGUI extends JFrame implements ActionListener{
         }
         textArea.setText(expression);        
   }
+    private int isOperator(char c){
+    switch(c){
+        case '+':
+        case '-':
+             return 1;
+        case '*':
+        case '/':
+              return 2;
+        }      
+        return -1;
     
+    }
+    public String convert(String infix){
+      Stack<Character> stack = new Stack();
+      String postFix = "";
+      for (int i =0; i< infix.length(); i++){
+        char c = infix.charAt(i);
+        if(isOperator(c)>){
+            while (!stack.isEmpty()
+        }
+        }
+    }
     public static void main (String args[]){
     CalcGUI calc=new CalcGUI();
     calc.setVisible(true);
