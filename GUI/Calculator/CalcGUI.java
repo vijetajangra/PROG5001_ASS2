@@ -55,11 +55,11 @@ public class CalcGUI extends JFrame implements ActionListener{
         //
         
         JPanel bottomPanel=new JPanel();
-        FlowLayout bottomLayout=new FlowLayout();
-        bottomLayout.setHgap(5);
-        bottomLayout.setVgap(5);
-        bottomLayout.setAlignment(FlowLayout.LEADING);
-        bottomLayout.setLayout(bottomLayout);
+        FlowLayout bottomPanelLayout=new FlowLayout();
+        bottomPanelLayout.setHgap(5);
+        bottomPanelLayout.setVgap(5);
+        bottomPanelLayout.setAlignment(FlowLayout.LEADING);
+        bottomPanel.setLayout(bottomPanelLayout);
         
         //bottomPanel.setBackground(Color.gray);
         //bottomPanel.setBounds(10,50,360,200);
@@ -70,7 +70,7 @@ public class CalcGUI extends JFrame implements ActionListener{
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
         add(rightPanel, BorderLayout.EAST);
-        add(bottomPanel,BorderLayout.South);
+        add(bottomPanel,BorderLayout.SOUTH);
      
         
     
@@ -85,52 +85,52 @@ public class CalcGUI extends JFrame implements ActionListener{
         button1=new JButton("1");
         button1.setActionCommand("CMD_One");
         button1.addActionListener(this);
-        button1.setPreferedSize(new Dimension(50,50));
+        button1.setPreferredSize(new Dimension(50,50));
         
         button2=new JButton("2");
         button2.setActionCommand("CMD_Two");
         button2.addActionListener(this);
-        button2.setPreferedSize(new Dimension(50,50));
+        button2.setPreferredSize(new Dimension(50,50));
         
         button3=new JButton("3");
         button3.setActionCommand("CMD_Three");
         button3.addActionListener(this);
-        button3.setPreferedSize(new Dimension(50,50));
+        button3.setPreferredSize(new Dimension(50,50));
         
         button4=new JButton("4");
         button4.setActionCommand("CMD_Four");
         button4.addActionListener(this);
-        button4.setPreferedSize(new Dimension(50,50));
+        button4.setPreferredSize(new Dimension(50,50));
         
         button5=new JButton("5");
         button5.setActionCommand("CMD_Five");
         button5.addActionListener(this);
-        button6.setPreferedSize(new Dimension(50,50));
+        button6.setPreferredSize(new Dimension(50,50));
         
         button6=new JButton("6");
         button6.setActionCommand("CMD_Six");
         button6.addActionListener(this);
-        button6.setPreferedSize(new Dimension(50,50));
+        button6.setPreferredSize(new Dimension(50,50));
         
         button7=new JButton("7");
         button7.setActionCommand("CMD_Seven");
         button7.addActionListener(this);
-        button7.setPreferedSize(new Dimension(50,50));
+        button7.setPreferredSize(new Dimension(50,50));
         
         button8=new JButton("8");
         button8.setActionCommand("CMD_Eight");
         button8.addActionListener(this);
-        button8.setPreferedSize(new Dimension(50,50));
+        button8.setPreferredSize(new Dimension(50,50));
         
         button9=new JButton("9");
         button9.setActionCommand("CMD_Nine");
         button9.addActionListener(this);
-        button9.setPreferedSize(new Dimension(50,50));
+        button9.setPreferredSize(new Dimension(50,50));
         
         button0=new JButton("0");
         button0.setActionCommand("CMD_Zero");
         button0.addActionListener(this);
-        button0.setPreferedSize(new Dimension(50,50));
+        button0.setPreferredSize(new Dimension(50,50));
         
         buttonDot=new JButton(".");
         buttonDot.setActionCommand("CMD_Dot");
@@ -170,26 +170,26 @@ public class CalcGUI extends JFrame implements ActionListener{
         openBracket = new JButton("(");
         openBracket.addActionListener(this);
         openBracket.setActionCommand("CMD_OP");
-        rightPanel(openBracket);
+        rightPanel.add(openBracket);
         
         closeBracket = new JButton("(");
         closeBracket.addActionListener(this);
         closeBracket.setActionCommand("CMD_CL");
-        rightPanel(openBracket);
+        rightPanel.add(openBracket);
         
         buttonEqual=new JButton("=");
         buttonEqual.addActionListener(this);
         buttonEqual.setActionCommand("CMD_Equal");
-        bottomPanel(buttonEqual);
+        bottomPanel.add(buttonEqual);
         
-        factorial=new JButton("!");
-        factorial.setPreferredSize(new Dimension(70,50));
-        factorial.addActionListener(this);
-        factorial.addActionCommand("CMD_FAC");
-        bottomPanel(factorial);
+        Factorial=new JButton("!");
+        Factorial.setPreferredSize(new Dimension(70,50));
+        Factorial.addActionListener(this);
+        Factorial.setActionCommand("CMD_FAC");
+        bottomPanel.add(Factorial);
         
         buttonOff=new JButton("OFF");
-        buttonOff.setPreferredsize(new Dimension(145,50));
+        buttonOff.setPreferredSize(new Dimension(145,50));
         buttonOff.addActionListener(this);
         buttonOff.setForeground(new Color(255, 153, 153));
         buttonOff.setOpaque(true);
@@ -368,16 +368,34 @@ public class CalcGUI extends JFrame implements ActionListener{
         }
         return postfix;
     }
-    public double evaluate(String postFix){
+    public double evaluate(String postfix){
         Stack<Double> stack=new Stack();
         double result = 0;
         for(int i = 0; i < postfix.length();i++){
             char c = postfix.charAt(i);
             if(isOperator (c)>0){
-            
+                double operand2 = Double.parseDouble("" + stack.pop());
+                double operand1 = Double.parseDouble("" +stack.pop());
+                if(c== '+'){
+                    result= operand1 + operand2;
+                    
+                }else
+                    if(c=='-'){
+                        result= operand1 - operand2;
+                }else
+                if(c== '*'){
+                    result= operand1*operand2;
+                }else
+                if(c=='/'){
+                    result=operand1/operand2;
+                }
+            stack.push(result);
+            }else{
+                stack.push(Double.parseDouble("" + c));
             }
         }
-    
+        result = stack.pop();
+        return result;
     }
     
     public static void main (String args[]){
