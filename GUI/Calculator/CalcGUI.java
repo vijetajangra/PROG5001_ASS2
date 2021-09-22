@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.FlowLayout;
 
 /**
  * CalcGUI class to build a basic calculator which will perform simple calculation by taking input from users
@@ -12,17 +13,22 @@ public class CalcGUI extends JFrame implements ActionListener{
 
     // instance variables - replace the example below with your own
     JPanel topPanel;
-    JPanel bottomPanel,centerPanel;
-    JTextField textArea;
+    JPanel bottomPanel,centerPanel,rightPanel;
+    JTextField display;
     String expression="";
-    JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual,buttonClear,opBracket,closeBracket;
-    String [] buttonCommands = { "CMD_One","CMD_Two","CMD_Three","CMD_Four","CMD_Five","CMD_Six","CMD_Seven","CMD_Eight","CMD_Nine","CMD_Zero","CMD_Dot","CMD_Add","CMD_Sub","CMD_Multi","CMD_Div","CMD_Equal","CMD_CLR"};
+    JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual,buttonClear,
+    openBracket,closeBracket,buttonOff,Factorial,backSpace;
+    String [] buttonCommands = { "CMD_One","CMD_Two","CMD_Three","CMD_Four","CMD_Five","CMD_Six","CMD_Seven","CMD_Eight","CMD_Nine","CMD_Zero","CMD_Dot","CMD_Add","CMD_Sub","CMD_Multi",
+                                    "CMD_Div","CMD_Equal","CMD_CLR","CMD_BSP","CMD_OP","CMD_CL","CMD_FAC"};
     // Constructor of class calcGUI
     public CalcGUI(){
         super("MY PROG5001 Calculator");
         setPreferredSize(new Dimension(400,400));
-        setLayout(null);
+        CreateCalcGUI();
     }
+    /**
+     * A method to set GUI
+     */
     private void CreateCalcGUI(){
         topPanel=new JPanel();
         topPanel.setBackground(Color.pink);
@@ -30,70 +36,101 @@ public class CalcGUI extends JFrame implements ActionListener{
         topPanel.setBounds(10,10,360,35);
         topPanel.setLayout(topPanelLayout);
         //add(topPanel);
+        
         centerPanel= new JPanel();
         centerPanel.setBackground(Color.green);
-        GridLayout centerPanelLayout = new GridLayout(4,3);
+        GridLayout centerPanelLayout = new GridLayout(4,4);
         centerPanelLayout.setHgap(10);
         centerPanelLayout.setVgap(10);
         centerPanel.setLayout(centerPanelLayout);
         
+        //
+        
+        rightPanel=new JPanel();
+        GridLayout rightPanelLayout=new GridLayout(4,1);
+        rightPanelLayout.setHgap(10);
+        rightPanelLayout.setVgap(10);
+        rightPanel.setLayout(rightPanelLayout);
+        
+        //
+        
         JPanel bottomPanel=new JPanel();
-        bottomPanel.setBackground(Color.gray);
-        bottomPanel.setBounds(10,50,360,200);
-        add(bottomPanel);
+        FlowLayout bottomLayout=new FlowLayout();
+        bottomLayout.setHgap(5);
+        bottomLayout.setVgap(5);
+        bottomLayout.setAlignment(FlowLayout.LEADING);
+        bottomLayout.setLayout(bottomLayout);
+        
+        //bottomPanel.setBackground(Color.gray);
+        //bottomPanel.setBounds(10,50,360,200);
+        //add(bottomPanel);
+        //
         BorderLayout mainLayout = new BorderLayout();
         setLayout(mainLayout);
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+        add(rightPanel, BorderLayout.EAST);
+        add(bottomPanel,BorderLayout.South);
+     
         
     
-        textArea=new JTextField("0");
+        display=new JTextField("0");
         Font textFont = new Font("SansSerif", Font.BOLD,24);
-        textArea.setFont(textFont);
-        textArea.setHorizontalAlignment(JTextField.RIGHT);
-        textArea.setPreferredSize(new Dimension(350,25));
-        topPanel.add(textArea);
+        display.setFont(textFont);
+        display.setHorizontalAlignment(JTextField.RIGHT);
+        display.setPreferredSize(new Dimension(100,35));
+        topPanel.add(display);
      
         //setting button to the panel
         button1=new JButton("1");
         button1.setActionCommand("CMD_One");
         button1.addActionListener(this);
+        button1.setPreferedSize(new Dimension(50,50));
         
         button2=new JButton("2");
         button2.setActionCommand("CMD_Two");
         button2.addActionListener(this);
+        button2.setPreferedSize(new Dimension(50,50));
         
         button3=new JButton("3");
         button3.setActionCommand("CMD_Three");
         button3.addActionListener(this);
+        button3.setPreferedSize(new Dimension(50,50));
         
         button4=new JButton("4");
         button4.setActionCommand("CMD_Four");
         button4.addActionListener(this);
+        button4.setPreferedSize(new Dimension(50,50));
         
         button5=new JButton("5");
         button5.setActionCommand("CMD_Five");
         button5.addActionListener(this);
+        button6.setPreferedSize(new Dimension(50,50));
         
         button6=new JButton("6");
         button6.setActionCommand("CMD_Six");
         button6.addActionListener(this);
+        button6.setPreferedSize(new Dimension(50,50));
         
         button7=new JButton("7");
         button7.setActionCommand("CMD_Seven");
         button7.addActionListener(this);
+        button7.setPreferedSize(new Dimension(50,50));
         
         button8=new JButton("8");
         button8.setActionCommand("CMD_Eight");
         button8.addActionListener(this);
+        button8.setPreferedSize(new Dimension(50,50));
         
         button9=new JButton("9");
         button9.setActionCommand("CMD_Nine");
         button9.addActionListener(this);
+        button9.setPreferedSize(new Dimension(50,50));
         
         button0=new JButton("0");
         button0.setActionCommand("CMD_Zero");
         button0.addActionListener(this);
+        button0.setPreferedSize(new Dimension(50,50));
         
         buttonDot=new JButton(".");
         buttonDot.setActionCommand("CMD_Dot");
@@ -124,24 +161,58 @@ public class CalcGUI extends JFrame implements ActionListener{
         buttonClear.addActionListener(this);
         add(buttonClear, BorderLayout.SOUTH);
         
+        backSpace=new JButton();
+        backSpace.setPreferredSize(new Dimension(150,100));
+        backSpace.addActionListener(this);
+        backSpace.setActionCommand("CMD_BSP");
+        rightPanel.add(backSpace);
+        
+        openBracket = new JButton("(");
+        openBracket.addActionListener(this);
+        openBracket.setActionCommand("CMD_OP");
+        rightPanel(openBracket);
+        
+        closeBracket = new JButton("(");
+        closeBracket.addActionListener(this);
+        closeBracket.setActionCommand("CMD_CL");
+        rightPanel(openBracket);
+        
+        buttonEqual=new JButton("=");
+        buttonEqual.addActionListener(this);
+        buttonEqual.setActionCommand("CMD_Equal");
+        bottomPanel(buttonEqual);
+        
+        factorial=new JButton("!");
+        factorial.setPreferredSize(new Dimension(70,50));
+        factorial.addActionListener(this);
+        factorial.addActionCommand("CMD_FAC");
+        bottomPanel(factorial);
+        
+        buttonOff=new JButton("OFF");
+        buttonOff.setPreferredsize(new Dimension(145,50));
+        buttonOff.addActionListener(this);
+        buttonOff.setForeground(new Color(255, 153, 153));
+        buttonOff.setOpaque(true);
+        bottomPanel.add(buttonOff);
+        
         // adding buttons on bottom Panel
-        bottomPanel.add(button1);
-        bottomPanel.add(button2);
-        bottomPanel.add(button3);
-        bottomPanel.add(button4);
-        bottomPanel.add(button5);
-        bottomPanel.add(button6);
-        bottomPanel.add(button7);
-        bottomPanel.add(button8);
-        bottomPanel.add(button9);
-        bottomPanel.add(button0);
-        bottomPanel.add(buttonDot);
-        bottomPanel.add(buttonAdd);
-        bottomPanel.add(buttonSub);
-        bottomPanel.add(buttonMulti);
-        bottomPanel.add(buttonDiv);
-        bottomPanel.add(buttonEqual);
-        bottomPanel.add(buttonClear);
+        centerPanel.add(button1);
+        centerPanel.add(button2);
+        centerPanel.add(button3);
+        centerPanel.add(button4);
+        centerPanel.add(button5);
+        centerPanel.add(button6);
+        centerPanel.add(button7);
+        centerPanel.add(button8);
+        centerPanel.add(button9);
+        centerPanel.add(button0);
+        centerPanel.add(buttonDot);
+        centerPanel.add(buttonAdd);
+        centerPanel.add(buttonSub);
+        centerPanel.add(buttonMulti);
+        centerPanel.add(buttonDiv);
+        centerPanel.add(buttonEqual);
+        centerPanel.add(buttonClear);
         
         pack();
     }
@@ -212,10 +283,45 @@ public class CalcGUI extends JFrame implements ActionListener{
         
             expression=expression+"=";
         }
-        textArea.setText(expression);        
+        else
+        if(command.equals("CMD_BSP")){
+            int len= displayText.length();
+            if(len!=0){
+            displayText= displayText.subString(0,len-1);
+            //expression=expression.substring(0,len-1);
+            }
+        }
+        else
+        if(command.equals("CMD_OP")){
+            displayText=displayText + "(";
+            //expression=expression + "(";
+        }
+        else
+        if(command.equals("CMD_CL")){
+            displayText=displayText + ")";
+            //expression=expression + ")";
+        }
+        else
+        if(command.equals("CMD_FAC")){
+        displayText=displayText + "!";
+        //expression=expression + "!";
+        }
+        else
+        if(command.equals("CMD-OFF")){
+            
+            //expression=expression + "(";
+        }
+        display.setText(expression);        
   }
-    private int isOperator(char c){
-    switch(c){
+  public void calculate(String text){
+      String userInput = display.getText();
+      String postfix=convert(userInput);
+      double result=evaluate(postfix);
+      String resultToShow=Double.toString(result);
+      display.setText(resultToShow);
+    }
+     private int isOperator(char c){
+        switch(c){
         case '+':
         case '-':
              return 1;
@@ -224,18 +330,56 @@ public class CalcGUI extends JFrame implements ActionListener{
               return 2;
         }      
         return -1;
-    
     }
+    /**
+     * 
+     */
     public String convert(String infix){
       Stack<Character> stack = new Stack();
       String postFix = "";
       for (int i =0; i< infix.length(); i++){
-        char c = infix.charAt(i);
-        if(isOperator(c)>){
-            while (!stack.isEmpty()
+          char c = infix.charAt(i);
+           if(isOperator(c)>0){
+            
+            while (!stack.isEmpty() && (isOperator(c) <= isOperator(stack.peek()))){
+                            postfix = postfix+stack.pop();
+            }
+            stack.push(c);
+        }else
+        if(c=='('){
+        //left parenthesis
+        stack.push(c);
+        
+        }else
+        if(c==')'){
+        //right parenthesis
+        while(!stack.isEmpty() && stack.peek() != '('){
+            postfix = postfix + stack.pop();
         }
+        stack.pop();
+        }else{
+        //operand
+        postfix = postfix + c;
         }
+        
+      }
+      while(!stack.isEmpty()){
+        postfix = postfix + stack.pop();
+        }
+        return postfix;
     }
+    public double evaluate(String postFix){
+        Stack<Double> stack=new Stack();
+        double result = 0;
+        for(int i = 0; i < postfix.length();i++){
+            char c = postfix.charAt(i);
+            if(isOperator (c)>0){
+            
+            }
+        }
+    
+    }
+    
     public static void main (String args[]){
     CalcGUI calc=new CalcGUI();
     calc.setVisible(true);
