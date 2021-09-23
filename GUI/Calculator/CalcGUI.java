@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.FlowLayout;
+import java.util.*;
 
 /**
  * CalcGUI class to build a basic calculator which will perform simple calculation by taking input from users
@@ -17,10 +18,11 @@ public class CalcGUI extends JFrame implements ActionListener{
     JTextField display;
     String expression="";
     JButton button1,button2,button3,button4,button5,button6,button7,button8,button9,button0,buttonDot,buttonAdd,buttonSub,buttonMulti,buttonDiv,buttonEqual,buttonClear,
-    openBracket,closeBracket,buttonOff,Factorial,backSpace;
+    openBracket,closeBracket,buttonOff,buttonOn,Factorial,backSpace;
     String [] buttonCommands = { "CMD_One","CMD_Two","CMD_Three","CMD_Four","CMD_Five","CMD_Six","CMD_Seven","CMD_Eight","CMD_Nine","CMD_Zero","CMD_Dot","CMD_Add","CMD_Sub","CMD_Multi",
                                     "CMD_Div","CMD_Equal","CMD_CLR","CMD_BSP","CMD_OP","CMD_CL","CMD_FAC"};
     // Constructor of class calcGUI
+    int status =0;
     public CalcGUI(){
         super("MY PROG5001 Calculator");
         setPreferredSize(new Dimension(400,400));
@@ -105,7 +107,7 @@ public class CalcGUI extends JFrame implements ActionListener{
         button5=new JButton("5");
         button5.setActionCommand("CMD_Five");
         button5.addActionListener(this);
-        button6.setPreferredSize(new Dimension(50,50));
+        button5.setPreferredSize(new Dimension(50,50));
         
         button6=new JButton("6");
         button6.setActionCommand("CMD_Six");
@@ -191,6 +193,7 @@ public class CalcGUI extends JFrame implements ActionListener{
         buttonOff=new JButton("OFF");
         buttonOff.setPreferredSize(new Dimension(145,50));
         buttonOff.addActionListener(this);
+        buttonOff.setActionCommand("CMD_OFF");
         buttonOff.setForeground(new Color(255, 153, 153));
         buttonOff.setOpaque(true);
         bottomPanel.add(buttonOff);
@@ -218,7 +221,7 @@ public class CalcGUI extends JFrame implements ActionListener{
     }
     public void actionPerformed(ActionEvent e){
         String command=e.getActionCommand();
-      
+        String text=display.getText();
         if(command.equals("CMD_One")){
             expression=expression+"1";
         }else
@@ -285,29 +288,30 @@ public class CalcGUI extends JFrame implements ActionListener{
         }
         else
         if(command.equals("CMD_BSP")){
-            int len= displayText.length();
+            int len= text.length();
             if(len!=0){
-            displayText= displayText.subString(0,len-1);
+            text= text.substring(0,len-1);
             //expression=expression.substring(0,len-1);
             }
         }
         else
         if(command.equals("CMD_OP")){
-            displayText=displayText + "(";
-            //expression=expression + "(";
+            //displayText=displayText + "(";
+            expression=expression + "(";
         }
         else
         if(command.equals("CMD_CL")){
-            displayText=displayText + ")";
-            //expression=expression + ")";
+            //displayText=displayText + ")";
+            expression=expression + ")";
         }
         else
         if(command.equals("CMD_FAC")){
-        displayText=displayText + "!";
-        //expression=expression + "!";
+        //displayText=displayText + "!";
+        expression=expression + "!";
         }
         else
-        if(command.equals("CMD-OFF")){
+        if(command.equals("CMD_OFF")){
+            System.exit(0);
             
             //expression=expression + "(";
         }
@@ -315,8 +319,8 @@ public class CalcGUI extends JFrame implements ActionListener{
   }
   public void calculate(String text){
       String userInput = display.getText();
-      String postfix=convert(userInput);
-      double result=evaluate(postfix);
+      String postFix=convert(userInput);
+      double result=evaluate(postFix);
       String resultToShow=Double.toString(result);
       display.setText(resultToShow);
     }
@@ -342,7 +346,7 @@ public class CalcGUI extends JFrame implements ActionListener{
            if(isOperator(c)>0){
             
             while (!stack.isEmpty() && (isOperator(c) <= isOperator(stack.peek()))){
-                            postfix = postfix+stack.pop();
+                            postFix = postFix+stack.pop();
             }
             stack.push(c);
         }else
@@ -354,28 +358,28 @@ public class CalcGUI extends JFrame implements ActionListener{
         if(c==')'){
         //right parenthesis
         while(!stack.isEmpty() && stack.peek() != '('){
-            postfix = postfix + stack.pop();
+            postFix = postFix + stack.pop();
         }
         stack.pop();
         }else{
         //operand
-        postfix = postfix + c;
+        postFix = postFix + c;
         }
         
       }
       while(!stack.isEmpty()){
-        postfix = postfix + stack.pop();
+        postFix = postFix + stack.pop();
         }
-        return postfix;
+        return postFix;
     }
-    public double evaluate(String postfix){
+    public double evaluate(String postFix){
         Stack<Double> stack=new Stack();
         double result = 0;
-        for(int i = 0; i < postfix.length();i++){
-            char c = postfix.charAt(i);
+        for(int i = 0; i < postFix.length();i++){
+            char c = postFix.charAt(i);
             if(isOperator (c)>0){
                 double operand2 = Double.parseDouble("" + stack.pop());
-                double operand1 = Double.parseDouble("" +stack.pop());
+                double operand1 = Double.parseDouble("" + stack.pop());
                 if(c== '+'){
                     result= operand1 + operand2;
                     
